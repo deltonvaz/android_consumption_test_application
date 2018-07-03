@@ -4,30 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fundo"
     tools:context=".MainActivity">
-
-    <EditText
-        android:id="@+id/TVresult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="119dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="@string/emptyStr"
-        tools:text="@string/emptyStr" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="109dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="87dp"
-        android:gravity="center"
-        android:onClick="getSpeechInput"
-        app:srcCompat="@drawable/mic1" />
 
     <TextView
         android:id="@+id/textView2"
@@ -35,27 +13,51 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:text="Diga algo que comeu" />
+        android:layout_marginBottom="107dp"
+        android:text="@string/hintBotao"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="168dp"
+        android:layout_marginTop="243dp"
         android:onClick="showLogs"
-        android:text="Registros" />
+        android:text="@string/registros" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="162dp"
+        android:onClick="showGraphs"
+        android:text="@string/graficos" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignEnd="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="96dp"
+        android:text="@string/titulo"
+        android:textSize="24sp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="98dp"
+        android:layout_height="66dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="226dp"
-        android:onClick="showGraphs"
-        android:text="Gráficos" />
+        android:layout_marginBottom="175dp"
+        android:clickable="true"
+        android:onClick="getSpeechInput"
+        app:backgroundTint="@android:color/holo_green_light"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </RelativeLayout>
