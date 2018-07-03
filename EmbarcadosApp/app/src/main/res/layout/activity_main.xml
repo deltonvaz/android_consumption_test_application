@@ -16,7 +16,7 @@
         android:layout_marginBottom="107dp"
         android:text="@string/hintBotao"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="13.5"
+        android:textSize="13dp"
         android:visibility="visible" />
 
     <Button

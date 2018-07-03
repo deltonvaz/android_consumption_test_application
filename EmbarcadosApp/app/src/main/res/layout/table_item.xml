@@ -8,11 +8,11 @@
     <TextView
         android:id="@+id/history_display_no"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_height="25dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
+        android:layout_weight="0.1"
         android:background="#f8feff"
         android:gravity="center"
         android:text="Qtde"
