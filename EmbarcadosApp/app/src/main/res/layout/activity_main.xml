@@ -16,6 +16,7 @@
         android:layout_marginBottom="107dp"
         android:text="@string/hintBotao"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="13.5"
         android:visibility="visible" />
 
     <Button
@@ -59,5 +60,16 @@
         android:onClick="getSpeechInput"
         app:backgroundTint="@android:color/holo_green_light"
         app:srcCompat="@android:drawable/ic_menu_add" />
+
+    <Button
+        android:id="@+id/button3"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+        android:layout_width="47dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="reset"
+        android:text="Res"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
 </RelativeLayout>

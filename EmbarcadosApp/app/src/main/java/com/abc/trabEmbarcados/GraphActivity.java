@@ -106,8 +106,9 @@ public class GraphActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(true);
 
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Dia");
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
-        //graph.setTitle("Calorias nos últimos 7 dias");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Kcals");
+
+        graph.getViewport().setScrollable(true);
     }
 
     private void Graph1d() {
@@ -171,7 +172,7 @@ public class GraphActivity extends AppCompatActivity {
 
         graph.getGridLabelRenderer().setHumanRounding(true);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Hora");
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Kcals");
         //graph.setTitle("Calorias no último dia");
     }
 
@@ -241,7 +242,9 @@ public class GraphActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(true);
 
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Dia");
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Kcals");
+
+        graph.getViewport().setScrollable(true);
     }
 
 }
