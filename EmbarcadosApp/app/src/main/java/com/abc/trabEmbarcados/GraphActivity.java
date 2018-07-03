@@ -31,7 +31,7 @@ public class GraphActivity extends AppCompatActivity {
 
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
-        graph = (GraphView) findViewById(R.id.graph0);
+        graph = (GraphView) findViewById(R.id.graph);
 
         String name; Date date = null; double calories; Integer quantity;
         double i=0, totalCalories = 0;

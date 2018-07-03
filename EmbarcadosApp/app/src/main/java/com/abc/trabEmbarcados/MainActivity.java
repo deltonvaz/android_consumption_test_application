@@ -37,7 +37,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static com.abc.trabEmbarcados.R.id.graph0;
+import static com.abc.trabEmbarcados.R.id.graph;
 
 /*
 * Infos dos alimentos obtidos em https://github.com/raulfdm/taco-api
@@ -48,26 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Registro> alimentos = new ArrayList<Registro>();
     Calendar cal = Calendar.getInstance();
-    String fileName = "meusDados";
+    String fileName = "meusArquivos";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getJson("arroz");
-        //getJson("biscoito");
-        alimentos.add(new Registro("03/06/2018", "arroz", 1, "100"));
-        alimentos.add(new Registro("03/07/2018", "biscoito", 1, "150"));
-        alimentos.add(new Registro("03/08/2018", "maçã", 1, "50"));
-        alimentos.add(new Registro("03/09/2018", "feijão", 1, "80"));
-        alimentos.add(new Registro("03/10/2018", "batata", 1, "70"));
-        alimentos.add(new Registro("03/10/2018", "pizza", 1, "200"));
-        alimentos.add(new Registro("03/11/2018", "queijo", 1, "200"));
-        alimentos.add(new Registro("03/11/2018", "queijo", 1, "10"));
-        alimentos.add(new Registro("03/11/2018", "queijo", 1, "40"));
-        alimentos.add(new Registro("03/12/2018", "laranja", 1, "40"));
-        alimentos.add(new Registro("03/13/2018", "morango", 1, "90"));
+        alimentos = getSavedArrayList();
     }
 
     public void getSpeechInput(View view){
@@ -81,37 +69,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (ActivityNotFoundException e){
             Toast.makeText(this, "Seu dispositivo não aceita reconhecimento de voz", Toast.LENGTH_SHORT).show();
         }
-//        if(intent.resolveActivity(getPackageManager()) != null){
-////            startActivityForResult(intent, 10);
-////        }else{
-////            Toast.makeText(this, "Seu dispositivo não aceita reconhecimento de voz", Toast.LENGTH_SHORT).show();
-////        }
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        ArrayList<Registro> tst;
         switch(requestCode){
             case 100:
                 if(resultCode == RESULT_OK && data != null){
                     ArrayList<String> resultado = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    //System.out.println(resultado.get(0));
                     getJson(resultado.get(0));
-//                    if(resultado.get(0).contains("arroz")){
-//                        //Toast.makeText(this, "Comeu arroz", Toast.LENGTH_SHORT).show();
-//                        Intent startNewActivity = new Intent(this, DisplayMessageActivity.class);
-//                        startActivity(startNewActivity);
-//                    }
-                    tst = getSavedArrayList();
-                    Log.v(TAG, "AQUI2!");
-                    for(Registro entry : tst) {
-                        System.out.println(entry.calories);
-                        System.out.println(entry.date);
-                        System.out.println(entry.name);
-                        System.out.println(entry.quantity);
-                    }
                 }
                 break;
         }
@@ -132,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void getJson(String nomeAlimento){
         String json = null;
-        FileInputStream fis;
-        FileOutputStream outputStream = null;
-        ObjectOutput out = null;
         boolean j = false;
         try {
             InputStream is = getAssets().open("alimentos.json");
@@ -147,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject obj = jsonArray.getJSONObject(i);
                 if(obj.getString("descricacao").contains(nomeAlimento)) {
-                    //alimentos.add(obj.getString("carboidrato"));
                     alimentos.add(new Registro(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(cal.getTime()), nomeAlimento, 1, obj.getString("carboidrato")));
                     saveArrayList(alimentos);
                     j = true;
@@ -178,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Registro> getSavedArrayList() {
         ArrayList<Registro> savedArrayList = null;
         try {
-            FileInputStream inputStream = openFileInput("meusDados");
+            FileInputStream inputStream = openFileInput("meusArquivos");
             ObjectInputStream in = new ObjectInputStream(inputStream);
             savedArrayList = (ArrayList<Registro>) in.readObject();
             in.close();
@@ -192,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveArrayList(ArrayList<Registro> arrayList) {
         try {
-            FileOutputStream fileOutputStream = openFileOutput("meusDados", Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = openFileOutput("meusArquivos", Context.MODE_PRIVATE);
             ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
             out.writeObject(arrayList);
             out.close();

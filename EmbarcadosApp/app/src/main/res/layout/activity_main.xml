@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fundo"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,8 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:text="@string/hintBotao" />
+        android:layout_marginBottom="107dp"
+        android:text="@string/hintBotao"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/button"
@@ -21,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="243dp"
         android:onClick="showLogs"
         android:text="@string/registros" />
 
@@ -31,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp"
+        android:layout_marginTop="162dp"
         android:onClick="showGraphs"
         android:text="@string/graficos" />
 
@@ -39,19 +42,19 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="37dp"
+        android:layout_alignEnd="@+id/button"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="96dp"
         android:text="@string/titulo"
         android:textSize="24sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="98dp"
+        android:layout_height="66dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="91dp"
+        android:layout_marginBottom="175dp"
         android:clickable="true"
         android:onClick="getSpeechInput"
         app:backgroundTint="@android:color/holo_green_light"
