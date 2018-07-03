@@ -1,14 +1,18 @@
 package com.abc.trabEmbarcados;
 
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -17,57 +21,227 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 
 public class GraphActivity extends AppCompatActivity {
 
-    private GraphView graph;
+    private ArrayList<Registro> alimentos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_graphs);
+        alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
+        Collections.reverse(alimentos);
 
-        ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
-        graph = (GraphView) findViewById(R.id.graph0);
+        Graph1d();
+        Graph7d();
+        Graph30d();
+    }
 
-        String name; Date date = null; double calories; Integer quantity;
-        double i=0, totalCalories = 0;
-        Date lastDate = null;
+    private void Graph7d() {
+        GraphView graph = (GraphView) findViewById(R.id.graph1);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
+        String name; Date date = null; double calories, i=0, totalCalories = 0; Integer quantity; Date lastDate = null;
+
         for(Registro entry : alimentos) {
             name = entry.name;
             date = new Date(entry.date);
             calories = new Double(entry.calories);
             quantity = entry.quantity;
 
-            if (lastDate == null || lastDate.getDay() == date.getDay()) {
-                totalCalories = calories + totalCalories;
-                series.appendData(new DataPoint(date, totalCalories), true, 99, true);
-            } else {
-                series.appendData(new DataPoint(date, calories), true, 99, true);
-                totalCalories = calories;
+            if (lastDate == null) {
+                totalCalories = quantity*calories + totalCalories;
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(date.getTime()));
+                plotseries.add(new DataPoint(finalDate, totalCalories));
+                lastDate = date;
                 i++;
-                if (i >= 6) {break;}
+            } else if (lastDate.getDay() == date.getDay()) {
+                totalCalories = quantity*calories + totalCalories;
+                plotseries.remove(i);
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(lastDate.getTime()));
+                plotseries.add(new DataPoint(finalDate, totalCalories));
+            } else {
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(date.getTime()));
+                plotseries.add(new DataPoint(finalDate, quantity*calories));
+                totalCalories = quantity*calories;
+                i++;
+                if (i >= 7) {break;}
+                lastDate = date;
             }
-            lastDate = date;
         }
 
-        series.setDrawValuesOnTop(true);
-        series.setSpacing(10);
+        Collections.reverse(plotseries);
+        for (DataPoint entry: plotseries) {
+            series.appendData( entry, true, 99, true);
+        }
+
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(5);
+        series.setDrawBackground(true);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
+        series.setCustomPaint(paint);
 
         graph.addSeries(series);
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("dd")));
-        //graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("d")));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space
 
-        graph.getViewport().setMinY(0);
+        graph.getViewport().setXAxisBoundsManual(true);
+        Date minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(0).getX()));
+        graph.getViewport().setMinX(minx.getTime());
+        Date maxx = new Date(new SimpleDateFormat("MM/dd/yyyy 23:59:59").format(plotseries.get(plotseries.size()-1).getX()));
+        graph.getViewport().setMaxX(maxx.getTime());
+
         graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
 
         graph.getGridLabelRenderer().setHumanRounding(true);
 
-
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Dia");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
+        //graph.setTitle("Calorias nos últimos 7 dias");
     }
 
+    private void Graph1d() {
+        GraphView graph = (GraphView) findViewById(R.id.graph0);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
+        String name; Date date = null; double calories, i=0; Integer quantity; Date lastDate = null;
+
+        for(Registro entry : alimentos) {
+            name = entry.name;
+            date = new Date(entry.date);
+            calories = new Double(entry.calories);
+            quantity = entry.quantity;
+
+            if (lastDate == null) {
+                plotseries.add(new DataPoint(date, quantity*calories));
+                lastDate = date;
+            } else if (lastDate.getDay() == date.getDay()) {
+                plotseries.add(new DataPoint(date, quantity*calories));
+            } else {
+                plotseries.add(new DataPoint(date, quantity*calories));
+                break;
+            }
+        }
+
+        Collections.reverse(plotseries);
+        for (DataPoint entry: plotseries) {
+            series.appendData( entry, true, 99, true);
+            System.out.println(entry.toString());
+        }
+
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(5);
+        series.setDrawBackground(true);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
+        series.setCustomPaint(paint);
+
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("H")));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(6); // only 4 because of the space
+
+        Date minx = null;
+        if (plotseries.size() > 0) {
+            minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(1).getX()));
+        } else {
+            minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(0).getX()));
+        }
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(minx.getTime());
+        Date maxx = new Date(new SimpleDateFormat("MM/dd/yyyy 23:59:59").format(plotseries.get(plotseries.size()-1).getX()));
+        graph.getViewport().setMaxX(maxx.getTime());
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+
+        graph.getGridLabelRenderer().setHumanRounding(true);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Hora");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
+        //graph.setTitle("Calorias no último dia");
+    }
+
+    private void Graph30d() {
+        GraphView graph = (GraphView) findViewById(R.id.graph2);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
+        String name; Date date = null; double calories, i=0, totalCalories = 0; Integer quantity; Date lastDate = null;
+
+        for(Registro entry : alimentos) {
+            name = entry.name;
+            date = new Date(entry.date);
+            calories = new Double(entry.calories);
+            quantity = entry.quantity;
+
+            if (lastDate == null) {
+                totalCalories = quantity*calories + totalCalories;
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(date.getTime()));
+                plotseries.add(new DataPoint(finalDate, totalCalories));
+                lastDate = date;
+                i++;
+            } else if (lastDate.getDay() == date.getDay()) {
+                totalCalories = quantity*calories + totalCalories;
+                plotseries.remove(i);
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(lastDate.getTime()));
+                plotseries.add(new DataPoint(finalDate, totalCalories));
+            } else {
+                Date finalDate = new Date(new SimpleDateFormat("MM/dd/yyyy 12:00:00").format(date.getTime()));
+                plotseries.add(new DataPoint(finalDate, quantity*calories));
+                totalCalories = quantity*calories;
+                i++;
+                if (i >= 30) {break;}
+                lastDate = date;
+            }
+        }
+
+        Collections.reverse(plotseries);
+        for (DataPoint entry: plotseries) {
+            series.appendData( entry, true, 99, true);
+        }
+
+        //series.setSpacing(5);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(5);
+        series.setDrawBackground(true);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
+        series.setCustomPaint(paint);
+
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("d")));
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        Date minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(0).getX()));
+        graph.getViewport().setMinX(minx.getTime());
+        Date maxx = new Date(new SimpleDateFormat("MM/dd/yyyy 23:59:59").format(plotseries.get(plotseries.size()-1).getX()));
+        graph.getViewport().setMaxX(maxx.getTime());
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+
+        graph.getGridLabelRenderer().setHumanRounding(true);
+
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Dia");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Cals");
+    }
 
 }

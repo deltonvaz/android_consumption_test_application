@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ public class LogActivity extends AppCompatActivity {
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
 
         System.out.println(alimentos.toString());
+
+        Collections.reverse(alimentos);
 
         for(Registro entry : alimentos) {
             String name = entry.name;

@@ -17,40 +17,50 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Calorias no último dia"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph0"
-                android:layout_width="357dp"
-                android:layout_height="182dp"
+                android:layout_width="350dp"
+                android:layout_height="200dp"
                 tools:layout_editor_absoluteX="14dp"
                 tools:layout_editor_absoluteY="42dp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorias nos últimos 7 dias"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph1"
-                android:layout_width="357dp"
-                android:layout_height="182dp"
+                android:layout_width="350dp"
+                android:layout_height="200dp"
                 tools:layout_editor_absoluteX="14dp"
                 tools:layout_editor_absoluteY="42dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorias nos últimos 30 dias"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph2"
-                android:layout_width="357dp"
-                android:layout_height="182dp"
+                android:layout_width="350dp"
+                android:layout_height="200dp"
                 tools:layout_editor_absoluteX="14dp"
                 tools:layout_editor_absoluteY="42dp" />
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/graph3"
-                android:layout_width="357dp"
-                android:layout_height="182dp"
-                tools:layout_editor_absoluteX="14dp"
-                tools:layout_editor_absoluteY="42dp" />
         </LinearLayout>
     </ScrollView>
 

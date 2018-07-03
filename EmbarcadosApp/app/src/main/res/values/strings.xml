@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Minha Die ta</string>
+    <string name="app_name">Minha Dieta</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_label">Send Message</string>
     <string name="emptyStr" />
