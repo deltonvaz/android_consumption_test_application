@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/history_display_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:text="Qtde" />
+
+    <TextView
+        android:id="@+id/history_display_date"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:gravity="center"
+        android:text="Data" />
+
+    <TextView
+        android:id="@+id/history_display_orderid"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.35"
+        android:gravity="center"
+        android:text="Nome" />
+
+    <TextView
+        android:id="@+id/history_display_quantity"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        android:gravity="center"
+        android:text="Cals" />
+
+</TableRow>

@@ -16,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.abc.trabEmbarcados.DisplayMessageActivity"></activity>
+        <activity android:name="com.abc.trabEmbarcados.DisplayMessageActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name="com.abc.trabEmbarcados.LogActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name="com.abc.trabEmbarcados.GraphActivity"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
