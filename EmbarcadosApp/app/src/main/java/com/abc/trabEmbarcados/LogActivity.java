@@ -25,8 +25,6 @@ public class LogActivity extends AppCompatActivity {
 
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
 
-        System.out.println(alimentos.toString());
-
         for(Registro entry : alimentos) {
             String name = entry.name;
             String date = entry.date;
