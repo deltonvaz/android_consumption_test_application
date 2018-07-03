@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,37 +30,44 @@ public class GraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_graphs);
 
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
-
-        System.out.println(alimentos.toString());
-
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
+        graph = (GraphView) findViewById(R.id.graph0);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-        int i=0;
+        String name; Date date = null; double calories; Integer quantity;
+        double i=0, totalCalories = 0;
+        Date lastDate = null;
         for(Registro entry : alimentos) {
-            String name = entry.name;
-            Date date = new Date(entry.date);
-            Double calories = new Double(entry.calories);
-            Integer quantity = entry.quantity;
+            name = entry.name;
+            date = new Date(entry.date);
+            calories = new Double(entry.calories);
+            quantity = entry.quantity;
 
-            System.out.println(date.toString());
-            series.appendData(new DataPoint(date, calories), true, 7,true);
-            i++;
-            if (i>6) {break;}
+            if (lastDate == null || lastDate.getDay() == date.getDay()) {
+                totalCalories = calories + totalCalories;
+                series.appendData(new DataPoint(date, totalCalories), true, 99, true);
+            } else {
+                series.appendData(new DataPoint(date, calories), true, 99, true);
+                totalCalories = calories;
+                i++;
+                if (i >= 6) {break;}
+            }
+            lastDate = date;
         }
 
+        series.setDrawValuesOnTop(true);
+        series.setSpacing(10);
+
         graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("dd")));
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 4 because of the space
 
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-
-        // set manual y bounds to have nice steps
         graph.getViewport().setMinY(0);
         graph.getViewport().setYAxisBoundsManual(true);
 
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not necessary
         graph.getGridLabelRenderer().setHumanRounding(true);
+
+
     }
+
+
 }

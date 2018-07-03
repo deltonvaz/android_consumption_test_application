@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static com.abc.trabEmbarcados.R.id.graph;
+import static com.abc.trabEmbarcados.R.id.graph0;
 
 /*
 * Infos dos alimentos obtidos em https://github.com/raulfdm/taco-api
@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
         alimentos.add(new Registro("03/08/2018", "maçã", 1, "50"));
         alimentos.add(new Registro("03/09/2018", "feijão", 1, "80"));
         alimentos.add(new Registro("03/10/2018", "batata", 1, "70"));
+        alimentos.add(new Registro("03/10/2018", "pizza", 1, "200"));
         alimentos.add(new Registro("03/11/2018", "queijo", 1, "200"));
+        alimentos.add(new Registro("03/11/2018", "queijo", 1, "10"));
+        alimentos.add(new Registro("03/11/2018", "queijo", 1, "40"));
         alimentos.add(new Registro("03/12/2018", "laranja", 1, "40"));
         alimentos.add(new Registro("03/13/2018", "morango", 1, "90"));
     }
