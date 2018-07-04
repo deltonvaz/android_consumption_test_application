@@ -42,14 +42,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_screen);
+        fbh.UploadLogs();
+    }
 
-        fbh.DownloadLogs();
-
+    public void PatientScreen(View view){
         alimentos = getSavedArrayList();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_patient);
         result = (TextView) findViewById(R.id.textView2);
+    }
+
+    public void SpecialistScreen(View view){
+        fbh.DownloadLogs();
+        alimentos = getSavedArrayList();
+
+        setContentView(R.layout.activity_main_specialist);
+        result = (TextView) findViewById(R.id.textView2);
+    }
+
+    public void update(View view) {
+        fbh.DownloadLogs();
+        Toast.makeText(this, "Updating..", Toast.LENGTH_SHORT).show();
     }
 
     public void getSpeechInput(View view){
@@ -152,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveArrayList(ArrayList<Registro> arrayList) {
         try {
-            FileOutputStream fileOutputStream = openFileOutput(fileName, Context.MODE_WORLD_READABLE);
+            FileOutputStream fileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
             out.writeObject(arrayList);
             out.close();

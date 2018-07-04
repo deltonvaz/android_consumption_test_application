@@ -1,6 +1,5 @@
 package com.abc.trabEmbarcados;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +27,7 @@ public class FirebaseHandler {
     public void UploadLogs() {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         riversRef = mStorageRef.child("meusArquivos");
-        Uri file = Uri.fromFile(new File("/data/data/com.abc.helloworldapp/files/meusArquivos"));
+        Uri file = Uri.fromFile(new File("/data/data/com.abc.helloworldapp/files/meusArquivosTemp"));
 
         riversRef.putFile(file)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -76,12 +75,21 @@ public class FirebaseHandler {
                         System.out.println("rolouu");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
-                System.out.println("não rolouu");
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle failed download
+                        // ...
+                        System.out.println("não rolouu");
+                    }
+                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        //calculating progress percentage
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        //displaying percentage in progress dialog
+                        System.out.println("Downloaded " + ((int) progress) + "%...");
+                    }
+                });
+
     }
 }

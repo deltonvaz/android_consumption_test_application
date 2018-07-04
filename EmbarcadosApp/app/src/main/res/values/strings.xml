@@ -8,6 +8,7 @@
     <string name="dialog_title">Sucesso</string>
     <string name="hintBotao">Pressione o botão e diga qual foi sua refeição</string>
     <string name="registros">Registros</string>
+    <string name="pacientes">Pacientes</string>
     <string name="graficos">Gráficos</string>
     <string name="titulo">MINHA DIETA</string>
 </resources>
