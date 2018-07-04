@@ -26,11 +26,9 @@ public class LogActivity extends AppCompatActivity {
         tableLayout = (TableLayout) findViewById(R.id.table);
 
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
-        System.out.println(alimentos.toString());
-
-        Collections.reverse(alimentos);
 
         if(alimentos != null) {
+            Collections.reverse(alimentos);
             for (Registro entry : alimentos) {
                 String name = entry.name;
                 String date = entry.date;
@@ -51,7 +49,7 @@ public class LogActivity extends AppCompatActivity {
             }
         }
         else{
-            Toast.makeText(this, "Nenhum alimento adicionado!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nenhum registro adicionado!", Toast.LENGTH_SHORT).show();
         }
     }
 }

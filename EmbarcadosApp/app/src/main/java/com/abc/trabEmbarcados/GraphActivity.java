@@ -1,5 +1,6 @@
 package com.abc.trabEmbarcados;
 
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -34,19 +36,23 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_graphs);
         alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
-        Collections.reverse(alimentos);
+        if (alimentos != null) {
+            Collections.reverse(alimentos);
 
-        Graph1d();
-        Graph7d();
-        Graph30d();
+            Graph1d();
+            Graph7d();
+            Graph30d();
+        } else {
+            Toast.makeText(this, "Nenhum registro adicionado!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void Graph7d() {
         GraphView graph = (GraphView) findViewById(R.id.graph1);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(), thresholdseries = new LineGraphSeries<>();
         ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
-        String name; Date date = null; double calories, i=0, totalCalories = 0; Integer quantity; Date lastDate = null;
+        String name; Date date = null; double calories, i=0, threshold=450, totalCalories = 0; Integer quantity; Date lastDate = null;
 
         for(Registro entry : alimentos) {
             name = entry.name;
@@ -78,6 +84,7 @@ public class GraphActivity extends AppCompatActivity {
         Collections.reverse(plotseries);
         for (DataPoint entry: plotseries) {
             series.appendData( entry, true, 99, true);
+            thresholdseries.appendData( new DataPoint(entry.getX(), threshold), true, 99, true);
         }
 
         series.setDrawDataPoints(true);
@@ -90,6 +97,9 @@ public class GraphActivity extends AppCompatActivity {
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
         series.setCustomPaint(paint);
 
+        thresholdseries.setColor(Color.RED);
+
+        graph.addSeries(thresholdseries);
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("d")));
         graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space
@@ -114,9 +124,9 @@ public class GraphActivity extends AppCompatActivity {
     private void Graph1d() {
         GraphView graph = (GraphView) findViewById(R.id.graph0);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(), thresholdseries = new LineGraphSeries<>();
         ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
-        String name; Date date = null; double calories, i=0; Integer quantity; Date lastDate = null;
+        String name; Date date = null; double calories, i=0, threshold = 200; Integer quantity; Date lastDate = null;
 
         for(Registro entry : alimentos) {
             name = entry.name;
@@ -138,6 +148,7 @@ public class GraphActivity extends AppCompatActivity {
         Collections.reverse(plotseries);
         for (DataPoint entry: plotseries) {
             series.appendData( entry, true, 99, true);
+            thresholdseries.appendData( new DataPoint(entry.getX(), threshold), true, 99, true);
             System.out.println(entry.toString());
         }
 
@@ -145,12 +156,15 @@ public class GraphActivity extends AppCompatActivity {
         series.setDataPointsRadius(5);
         series.setDrawBackground(true);
 
+        thresholdseries.setColor(Color.RED);
+
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
         series.setCustomPaint(paint);
 
+        graph.addSeries(thresholdseries);
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("H")));
         graph.getGridLabelRenderer().setNumHorizontalLabels(6); // only 4 because of the space
@@ -173,15 +187,18 @@ public class GraphActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(true);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Hora");
         graph.getGridLabelRenderer().setVerticalAxisTitle("Kcals");
+
+
+
         //graph.setTitle("Calorias no último dia");
     }
 
     private void Graph30d() {
         GraphView graph = (GraphView) findViewById(R.id.graph2);
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(), thresholdseries = new LineGraphSeries<>();
         ArrayList<DataPoint> plotseries= new ArrayList<DataPoint>();
-        String name; Date date = null; double calories, i=0, totalCalories = 0; Integer quantity; Date lastDate = null;
+        String name; Date date = null; double calories, i=0, threshold = 450, totalCalories = 0; Integer quantity; Date lastDate = null;
 
         for(Registro entry : alimentos) {
             name = entry.name;
@@ -213,6 +230,7 @@ public class GraphActivity extends AppCompatActivity {
         Collections.reverse(plotseries);
         for (DataPoint entry: plotseries) {
             series.appendData( entry, true, 99, true);
+            thresholdseries.appendData( new DataPoint(entry.getX(), threshold), true, 99, true);
         }
 
         //series.setSpacing(5);
@@ -226,6 +244,9 @@ public class GraphActivity extends AppCompatActivity {
         paint.setPathEffect(new DashPathEffect(new float[]{8, 5}, 0));
         series.setCustomPaint(paint);
 
+        thresholdseries.setColor(Color.RED);
+
+        graph.addSeries(thresholdseries);
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this.getBaseContext(), new SimpleDateFormat("d")));
         //graph.getGridLabelRenderer().setNumHorizontalLabels(7); // only 4 because of the space

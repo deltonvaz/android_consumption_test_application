@@ -7,17 +7,9 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,13 +20,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
 
 /*
@@ -45,19 +34,22 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Debug";
 
     ArrayList<Registro> alimentos = new ArrayList<Registro>();
+    FirebaseHandler fbh = new FirebaseHandler();
     Calendar cal = Calendar.getInstance();
-    String fileName = "meusArquivos";
-    private TextView result;
-
+    String fileName = "meusArquivosTemp";
+    TextView result;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        result = (TextView)findViewById(R.id.textView2);
+        fbh.DownloadLogs();
 
         alimentos = getSavedArrayList();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        result = (TextView) findViewById(R.id.textView2);
     }
 
     public void getSpeechInput(View view){
@@ -116,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 if(obj.getString("descricacao").contains(nomeAlimento)) {
                     alimentos.add(new Registro(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(cal.getTime()), nomeAlimento, 1, obj.getString("carboidrato")));
                     saveArrayList(alimentos);
+                    fbh.UploadLogs();
                     j = true;
 
                     break;
@@ -145,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Registro> getSavedArrayList() {
         ArrayList<Registro> savedArrayList = null;
         try {
-            FileInputStream inputStream = openFileInput("meusArquivos");
+            FileInputStream inputStream = openFileInput(fileName);
             ObjectInputStream in = new ObjectInputStream(inputStream);
             savedArrayList = (ArrayList<Registro>) in.readObject();
             in.close();
@@ -159,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveArrayList(ArrayList<Registro> arrayList) {
         try {
-            FileOutputStream fileOutputStream = openFileOutput("meusArquivos", Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = openFileOutput(fileName, Context.MODE_WORLD_READABLE);
             ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
             out.writeObject(arrayList);
             out.close();
