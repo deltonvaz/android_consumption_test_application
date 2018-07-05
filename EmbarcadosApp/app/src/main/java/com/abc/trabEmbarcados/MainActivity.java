@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_specialist);
         result = (TextView) findViewById(R.id.textView2);
+
+        Toast.makeText(this, "Updating..", Toast.LENGTH_SHORT).show();
     }
 
     public void update(View view) {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject obj = jsonArray.getJSONObject(i);
 
-                if(obj.getString("descricacao").contains(nomeAlimento)) {
+                if(obj.getString("descricacao").contains(nomeAlimento) || !(obj.getString("carboidrato").contains("*"))) {
                     alimentos.add(new Registro(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(cal.getTime()), nomeAlimento, 1, obj.getString("carboidrato")));
                     saveArrayList(alimentos);
                     fbh.UploadLogs();
@@ -218,5 +220,12 @@ public class MainActivity extends AppCompatActivity {
         alimentos.add(new Registro("07/02/2018 19:34:11", "pastel", 2, "110"));
         alimentos.add(new Registro("07/02/2018 22:50:10", "peixe", 1, "230"));
         saveArrayList(alimentos);
+        Toast.makeText(this, "Reseting", Toast.LENGTH_SHORT).show();
+    }
+
+    public void empty_reset(View view){
+        alimentos = new ArrayList<Registro>();
+        saveArrayList(alimentos);
+        Toast.makeText(this, "Reseting", Toast.LENGTH_SHORT).show();
     }
 }

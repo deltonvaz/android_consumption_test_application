@@ -27,7 +27,7 @@ public class LogActivity extends AppCompatActivity {
 
         ArrayList<Registro> alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
 
-        if(alimentos != null) {
+        if(alimentos != null && alimentos.size() > 0) {
             Collections.reverse(alimentos);
             for (Registro entry : alimentos) {
                 String name = entry.name;

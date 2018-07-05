@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fundo"
+    android:background="@drawable/fundo3"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,53 +13,31 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="107dp"
+        android:layout_marginBottom="72dp"
         android:text="@string/hintBotao"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="13dp"
         android:visibility="visible" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Holo.Button.Small"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="243dp"
+        android:layout_centerInParent="true"
         android:onClick="showLogs"
         android:text="@string/registros" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        style="@android:style/Widget.Holo.Button.Small"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="162dp"
         android:onClick="showGraphs"
         android:text="@string/graficos" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_alignEnd="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="96dp"
-        android:text="@string/titulo"
-        android:textSize="24sp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="98dp"
-        android:layout_height="66dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="175dp"
-        android:clickable="true"
-        android:onClick="getSpeechInput"
-        app:backgroundTint="@android:color/holo_green_light"
-        app:srcCompat="@android:drawable/ic_menu_add" />
 
     <Button
         android:id="@+id/button3"
@@ -78,9 +56,45 @@
         android:layout_width="47dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:onClick="empty_reset"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <Button
+        android:id="@+id/button11"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+        android:layout_width="47dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:onClick="reset"
-        android:text="Res"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:layout_width="300dp"
+        android:layout_height="65dp"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:onClick="getSpeechInput"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@drawable/icon" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="199dp"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/minhadietabranco" />
 
 </RelativeLayout>

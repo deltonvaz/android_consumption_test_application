@@ -36,7 +36,7 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_graphs);
         alimentos = (ArrayList<Registro>) getIntent().getSerializableExtra("alimentos");
-        if (alimentos != null) {
+        if (alimentos != null && alimentos.size() > 0) {
             Collections.reverse(alimentos);
 
             Graph1d();
@@ -170,7 +170,7 @@ public class GraphActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setNumHorizontalLabels(6); // only 4 because of the space
 
         Date minx = null;
-        if (plotseries.size() > 0) {
+        if (plotseries.size() > 1) {
             minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(1).getX()));
         } else {
             minx = new Date(new SimpleDateFormat("MM/dd/yyyy 00:00:00").format(plotseries.get(0).getX()));
