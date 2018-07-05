@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /*
 * Infos dos alimentos obtidos em https://github.com/raulfdm/taco-api
@@ -39,22 +40,28 @@ public class MainActivity extends AppCompatActivity {
     String fileName = "meusArquivosTemp";
     TextView result;
     Context context;
+    private Boolean specialist = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
-        fbh.UploadLogs();
+        while (!this.specialist) {
+            fbh.UploadLogs();
+        }
     }
 
     public void PatientScreen(View view){
+        this.specialist = false;
         alimentos = getSavedArrayList();
+        fbh.UploadLogs();
 
         setContentView(R.layout.activity_main_patient);
         result = (TextView) findViewById(R.id.textView2);
     }
 
     public void SpecialistScreen(View view){
+        this.specialist = true;
         fbh.DownloadLogs();
         alimentos = getSavedArrayList();
 
@@ -66,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void update(View view) {
         fbh.DownloadLogs();
+        Toast.makeText(this, "Updating..", Toast.LENGTH_SHORT).show();
+    }
+
+    public void upload(View view) {
+        fbh.UploadLogs();
         Toast.makeText(this, "Updating..", Toast.LENGTH_SHORT).show();
     }
 
@@ -122,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject obj = jsonArray.getJSONObject(i);
 
-                if(obj.getString("descricacao").contains(nomeAlimento) || !(obj.getString("carboidrato").contains("*"))) {
+                if(obj.getString("descricacao").contains(nomeAlimento) && !(obj.getString("carboidrato").contains("*"))) {
                     alimentos.add(new Registro(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(cal.getTime()), nomeAlimento, 1, obj.getString("carboidrato")));
                     saveArrayList(alimentos);
                     fbh.UploadLogs();

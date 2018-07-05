@@ -7,6 +7,15 @@
     android:background="@drawable/fundo3"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="80dp"
+        android:layout_height="43dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        app:srcCompat="@drawable/diet" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -41,13 +50,12 @@
 
     <Button
         android:id="@+id/button3"
-        style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="47dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@android:drawable/ic_menu_rotate"
-        android:onClick="update"
+        android:onClick="upload"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
     <Button
@@ -79,15 +87,6 @@
         android:layout_centerHorizontal="true"
         android:onClick="getSpeechInput"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        app:srcCompat="@drawable/icon" />
 
     <ImageView
         android:id="@+id/imageView8"
